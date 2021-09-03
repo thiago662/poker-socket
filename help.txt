@@ -1,0 +1,71 @@
+// Elementos
+card = {
+  value: number,
+  isSelected: boolean,
+};
+
+user = {
+  id: number,
+  name: string,
+  image: blob,
+  card: Card,
+};
+
+connectedUsers: User[] = [
+  user: User,
+  user: User,
+  ...
+];
+
+room = {
+  id: number,
+  connectedUsers: User[],
+}
+
+rooms: Room[] = [
+  room,
+  room,
+  ...
+]
+
+// Ações
+
+conectUser() {
+  // criar user;
+  
+  // gerar id;
+  
+  // inserir user conectado no array de connectedUsers e devolver esse array para o front;
+
+  // emitir event para os demais que se conectaram;
+}
+
+userEdit(id) {
+  // editar name ou image do user;
+  
+  // emitir event para os demais que se conectaram;
+}
+
+selectCard(id) {
+  // alterar a propriedade isSelected da card do user
+  
+  // emitir event para os demais que se conectaram;
+}
+
+showCards() {
+  // enviar todas as cartas para o front
+
+  // emitir event para os demais que se conectaram;
+}
+
+resetGame() {
+  // reseta todos valores das cartas do usuários mantendo seus nomes e imagens
+  
+  // emitir event para os demais que se conectaram;
+}
+
+disconnectUser() {
+  // remover o user da room
+
+  // checar se não há mais usuários na room e se não houver remover a room do array de rooms
+}
