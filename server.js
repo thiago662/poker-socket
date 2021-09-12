@@ -16,23 +16,24 @@ io.on('connection', function(socket) {
     socket.on('setUser', data => {
         user = {
             id: socket.id,
-            name: data.name
+            name: data.name,
+            value: null,
+            selected: false
         }
 
         users.push(user);
 
-        socket.emit('myRoom', users);
+        socket.emit('myUser', user);
         socket.broadcast.emit('newUser', user);
     });
 
-    // socket.on('createRoom', data => {
-    //     users.forEach(element => {
-    //         if (element.id == data.id) {
-    //             element.name = data.name;
-    //         }
-    //     });
-    //     socket.broadcast.emit('receivedMessage', data);
-    // });
+    socket.on('delete', data => {
+        users = users.filter(function(item) {
+            return item.id != data;
+        });
+
+        socket.broadcast.emit('newUser', user);
+    });
 });
 
 server.listen(3000, () => {
