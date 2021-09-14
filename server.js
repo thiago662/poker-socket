@@ -12,19 +12,36 @@ let users = [];
 
 io.on('connection', function(socket) {
     console.log('A user connected: ' + socket.id);
-    
-    socket.on('setUser', data => {
+
+    socket.on('generateId', data => {
         user = {
             id: socket.id,
-            name: data.name,
+            name: null,
             value: null,
             selected: false
         }
 
         users.push(user);
 
-        socket.emit('myUser', user);
+        socket.emit('myId', user);
+        socket.emit('room', users);
         socket.broadcast.emit('newUser', user);
+    });
+
+    socket.on('setName', data => {
+        objIndex = users.findIndex((obj => obj.id == data.id));
+
+        users[objIndex].name = data.name;
+
+        socket.emit('myName', data);
+        socket.broadcast.emit('userName', data);
+    });
+    
+    socket.on('checkUserExist', data => {
+        objIndex = users.findIndex((obj => obj.id == data));
+
+        socket.emit('myUser', users[objIndex]);
+        socket.emit('room', users);
     });
 
     socket.on('delete', data => {
