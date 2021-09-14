@@ -32,7 +32,33 @@ io.on('connection', function(socket) {
             return item.id != data;
         });
 
-        socket.broadcast.emit('newUser', user);
+        socket.emit('myDelete', data);
+        socket.broadcast.emit('userDeleted', data);
+    });
+
+    socket.on('setValue', data => {   
+        objIndex = users.findIndex((obj => obj.id == data.id));
+
+        users[objIndex].value = data.value;
+        users[objIndex].selected = true;
+
+        socket.emit('myUpdate', users[objIndex]);
+        socket.broadcast.emit('userUpdated', data.id);
+    });
+
+    socket.on('show', data => {
+        socket.emit('showMe', users);
+        socket.broadcast.emit('showAll', users);
+    });
+
+    socket.on('reset', data => {
+        for (const user of users) {
+            user.value = null;
+            user.selected = false;
+        }
+
+        socket.emit('resetMe', users);
+        socket.broadcast.emit('resetAll', users);
     });
 });
 
