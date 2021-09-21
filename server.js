@@ -41,7 +41,10 @@ io.on('connection', function(socket) {
         objIndex = users.findIndex((obj => obj.id == data));
 
         socket.emit('myUser', users[objIndex]);
-        socket.emit('room', users);
+        if (users[objIndex] != null) {
+            console.log('n nulo');
+            socket.emit('room', users);
+        }
     });
 
     socket.on('delete', data => {
@@ -76,6 +79,16 @@ io.on('connection', function(socket) {
 
         socket.emit('resetMe', users);
         socket.broadcast.emit('resetAll', users);
+    });
+
+    socket.on('disconnect', function () {
+        console.log(socket.id);
+
+        users = users.filter(function(item) {
+            return item.id != socket.id;
+        });
+
+        socket.broadcast.emit('userDeleted', socket.id);
     });
 });
 
