@@ -11,8 +11,6 @@ var io = require('socket.io')(server, {
 let users = [];
 
 io.on('connection', function(socket) {
-    console.log('A user connected: ' + socket.id);
-
     socket.on('generateId', data => {
         user = {
             id: socket.id,
@@ -42,7 +40,6 @@ io.on('connection', function(socket) {
 
         socket.emit('myUser', users[objIndex]);
         if (users[objIndex] != null) {
-            console.log('n nulo');
             socket.emit('room', users);
         }
     });
@@ -82,7 +79,6 @@ io.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function () {
-        console.log(socket.id);
 
         users = users.filter(function(item) {
             return item.id != socket.id;
@@ -93,5 +89,4 @@ io.on('connection', function(socket) {
 });
 
 server.listen(3000, () => {
-    console.log('socket.io server is listing on port 3000');
 })
