@@ -7,6 +7,7 @@ var io = require('socket.io')(server, {
         methods: "*"
     }
 });
+var port = process.env.PORT || 3000;
 
 let users = [];
 
@@ -88,5 +89,5 @@ io.on('connection', function(socket) {
     });
 });
 
-server.listen(3000, () => {
+server.listen(port, () => {
 })
