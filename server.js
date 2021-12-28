@@ -12,6 +12,8 @@ var port = process.env.PORT || 3000;
 let users = [];
 
 io.on('connection', function(socket) {
+    console.log(`Client connected: ${socket.id}`);
+
     socket.on('generateId', data => {
         user = {
             id: socket.id,
@@ -80,6 +82,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function () {
+        console.log(`Client disconnected: ${socket.id}`);
 
         users = users.filter(function(item) {
             return item.id != socket.id;
@@ -90,4 +93,5 @@ io.on('connection', function(socket) {
 });
 
 server.listen(port, () => {
+    console.log(`Listening on ${port}`);
 })
